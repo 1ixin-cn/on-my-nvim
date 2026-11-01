@@ -105,6 +105,10 @@ def collect_files():
 def _ok_file(p: Path) -> bool:
     if p.name.startswith("._"):
         return False
+    # .gitkeep 是刻意保留的：空的占位目录（lua/langs）在 git 里靠它存在，
+    # 归档里也一起带上，这样 payload 解出来和源码树才完全一致
+    if p.name == ".gitkeep":
+        return p.is_file()
     if p.name.startswith("."):
         return False
     for suf in EXCLUDE_SUFFIX:

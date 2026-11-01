@@ -521,8 +521,8 @@ mv ~/.config/nvim.backup.<时间戳> ~/.config/nvim
 新机器上哪个语言可用就用哪个。
 
 三份都**自包含**：配置本体（`init.lua` / `lua/` / `lazy-lock.json` / `README.md` /
-`快捷键手册.md`，共 23 个文件）打成 tar.gz 再 base64 编码，内嵌在脚本末尾的
-`payload()` / `PAYLOAD` / `PAYLOAD_B64` 常量里。运行时解到临时目录再落盘，
+`快捷键手册.md` / `scripts/` 下两个 codelldb 辅助脚本，共 24 个文件）打成 tar.gz 再 base64
+编码，内嵌在脚本末尾的 `payload()` / `PAYLOAD` / `PAYLOAD_B64` 常量里。运行时解到临时目录再落盘，
 所以**只拷一个文件过去就能装完整套环境**。
 
 ### 9.1 选哪个版本
@@ -641,9 +641,9 @@ python3 tools/make-payload.py --check
 python3 tools/make-payload.py --dump /tmp/pv
 ```
 
-`make-payload.py` 做的事：按白名单收 23 个文件（`init.lua` / `lua/` / `lazy-lock.json` /
+`make-payload.py` 做的事：按白名单收 24 个文件（`init.lua` / `lua/` / `lazy-lock.json` /
 `README.md` / `快捷键手册.md` / `scripts/install-codelldb.sh` / `scripts/build-codelldb.sh`），
-保留空目录 `lua/langs`，权限只区分可执行与否，`gzip mtime=0` 保证**同样内容打出同样字节**，
+`lua/langs/.gitkeep` 用来保住这个空的占位目录，权限只区分可执行与否，`gzip mtime=0` 保证**同样内容打出同样字节**，
 然后替换三份脚本里的载荷区段。
 
 注入完照例验一遍：
